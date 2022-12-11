@@ -4,6 +4,9 @@
       <div class="col-12">
         <PageTitle page_title="Deserts" />
         <MenuCombos :menu_combos="menu" />
+        <div class="col-12">
+          <MenuItems :menu_items="menuItems" />
+        </div>
       </div>
     </div>
   </div>
@@ -16,10 +19,12 @@ export default {
   data() {
     return {
       menu: [],
+      menuItems: [],
     };
   },
   created() {
     this.getMenu();
+    this.getMenuItems();
   },
   methods: {
     async getMenu() {
@@ -40,6 +45,28 @@ export default {
         const items = await this.$axios.get(`/menu-compos?populate=*&${query}`);
         this.menu = items.data;
         // console.log(this.menu);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getMenuItems() {
+      try {
+        const qs = require("qs");
+        const query = qs.stringify(
+          {
+            filters: {
+              ComboType: {
+                $eq: "dessert",
+              },
+            },
+          },
+          {
+            encodeValuesOnly: true,
+          }
+        );
+        const items = await this.$axios.get(`/menu-items?populate=*&${query}`);
+        this.menuItems = items.data;
+        // console.log(this.menuItems);
       } catch (e) {
         console.log(e);
       }
