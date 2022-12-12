@@ -47,14 +47,29 @@ export default {
   .box {
     display: flex;
     gap: 15px;
+    @media (max-width: 767px) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0;
+    }
     img {
       max-width: 100%;
       height: 100px;
+      @media (max-width: 767px) {
+        height: 200px;
+        border-radius: 15px;
+      }
     }
     .content {
       .header {
         display: flex;
         justify-content: space-between;
+        @media (max-width: 767px) {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
         .title {
           text-transform: uppercase;
           font-weight: bold;
@@ -69,6 +84,16 @@ export default {
       .description {
         font-size: 15px;
         margin: 10px 0;
+        @media (max-width: 767px) {
+          margin: 2px auto;
+          width: 90%;
+          text-align: center;
+        }
+      }
+      button {
+        @media (max-width: 767px) {
+          margin: auto;
+        }
       }
     }
   }
