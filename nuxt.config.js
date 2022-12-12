@@ -52,7 +52,9 @@ export default {
     "@nuxtjs/axios",
   ],
   axios: {
-    baseURL: process.env.STRAPI_URL || "http://localhost:1337/api",
+    baseURL:
+      process.env.STRAPI_URL ||
+      "https://dorelliabackendapi-production-285d.up.railway.app/api",
   },
   /*axios: {
     baseURL: 'https://api-dev.shipcash.net/api'

@@ -9,7 +9,7 @@
           <h1>{{ item.attributes.Title }}</h1>
         </div>
         <img
-          :src="`http://localhost:1337${item.attributes.Image.data.attributes.formats.medium.url}`"
+          :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
           alt=""
         />
       </div>
@@ -27,6 +27,13 @@
 <script>
 export default {
   props: ["menu_combos"],
+  computed: {
+    url() {
+      return this.$axios.defaults.baseURL
+        ? this.$axios.defaults.baseURL.split("/api")[0]
+        : "https://dorelliabackendapi-production-285d.up.railway.app";
+    },
+  },
 };
 </script>
 
