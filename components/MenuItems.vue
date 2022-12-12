@@ -2,7 +2,7 @@
   <div class="menu-items">
     <div v-for="(item, index) in menu_items.data" :key="index" class="box">
       <img
-        :src="`http://localhost:1337${item.attributes.Image.data.attributes.formats.medium.url}`"
+        :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
         alt=""
       />
 
@@ -27,6 +27,13 @@
 <script>
 export default {
   props: ["menu_items"],
+  computed: {
+    url() {
+      return this.$axios.defaults.baseURL
+        ? this.$axios.defaults.baseURL.split("/api")[0]
+        : "https://dorelliabackendapi-production-285d.up.railway.app";
+    },
+  },
 };
 </script>
 
