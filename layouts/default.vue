@@ -1,16 +1,30 @@
 <template>
   <div class="container">
-    <div class="p-3">
-      <Logo />
-      <TopMenu />
-      <Nuxt />
-      <Footer />
-    </div>
+    <client-only>
+      <div class="p-3">
+        <Auth :key="componentKey" @forceRerender="forceRerender" />
+        <Logo />
+        <TopMenu :key="componentKey + 1" />
+        <NuxtChild :key="componentKey" @forceRerender="forceRerender" />
+        <Footer />
+      </div>
+    </client-only>
   </div>
 </template>
 
 <script>
 export default {
-  layputs: "homepage",
+  layouts: "homepage",
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
+  methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    },
+  },
 };
 </script>
+<style lang="scss"></style>
