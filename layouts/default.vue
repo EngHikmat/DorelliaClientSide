@@ -2,10 +2,11 @@
   <div class="container">
     <client-only>
       <div class="p-3">
+        <notifications position="bottom left" />
         <Auth :key="componentKey" @forceRerender="forceRerender" />
         <Logo />
         <TopMenu :key="componentKey + 1" />
-        <NuxtChild :key="componentKey" @forceRerender="forceRerender" />
+        <NuxtChild :key="componentKey + 2" @forceRerender="forceRerender" />
         <Footer />
       </div>
     </client-only>
@@ -27,4 +28,3 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>

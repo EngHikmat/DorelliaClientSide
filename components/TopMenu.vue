@@ -13,8 +13,17 @@
         to="/yourorder"
         exact-active-class="active"
         v-if="authenticated"
-        >Your Order <i class="bi bi-bag"></i> ({{ cartCount }})</nuxt-link
-      >
+        >Your Order <i class="bi bi-bag"></i
+        ><span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 8px"
+          v-if="cartCount !== 0"
+        >
+          {{ cartCount }}
+          <span class="visually-hidden">Items Notification</span>
+        </span>
+        <!--({{ cartCount }})-->
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -26,6 +35,7 @@ export default {
       authenticated: false,
       userId: "",
       cartCount: 0,
+      notifications: 0,
     };
   },
   beforeMount() {
@@ -50,6 +60,9 @@ export default {
                   $eq: this.userId,
                 },
               },
+              /* status: {
+                $eq: "Created",
+              },*/
             },
             pagination: {
               page: 1,

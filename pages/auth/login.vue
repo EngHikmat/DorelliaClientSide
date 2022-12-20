@@ -13,7 +13,11 @@ export default {
     return {
       email: "",
       password: "",
+      loggedIn: false,
     };
+  },
+  beforeMount() {
+    localStorage.getItem("jwt") ? this.$router.push("/") : null;
   },
   methods: {
     async login() {
@@ -47,6 +51,14 @@ export default {
           console.log(response.error.message);
         }*/
       } catch (err) {
+        this.$notify({
+          type: "error",
+          title: "Validation Error",
+          text: "Incorrect <b>Email</b> Or <b>Password</b> Please Check & try Again.",
+          duration: 5000,
+          speed: 1000,
+          data: {},
+        });
         console.log("err");
       }
     },

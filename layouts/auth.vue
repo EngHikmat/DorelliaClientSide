@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="p-3">
+      <notifications position="bottom left" />
       <Logo />
       <Nuxt />
       <Footer />
