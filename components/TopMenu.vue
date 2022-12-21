@@ -8,16 +8,84 @@
       <nuxt-link to="/lunch" exact-active-class="active">Lunch</nuxt-link>
       <span class="dot"><i class="bi bi-dot"></i></span>
       <nuxt-link to="/desserts" exact-active-class="active">Desserts</nuxt-link>
-      <span class="dot"><i class="bi bi-dot"></i></span>
-      <nuxt-link to="/yourorder" exact-active-class="active"
-        >Your Order <i class="bi bi-bag"></i> (0)</nuxt-link
-      >
+      <span class="dot" v-if="authenticated"><i class="bi bi-dot"></i></span>
+      <nuxt-link
+        to="/yourorder"
+        exact-active-class="active"
+        v-if="authenticated"
+        >Your Order <i class="bi bi-bag"></i
+        ><span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 8px"
+          v-if="cartCount !== 0"
+        >
+          {{ cartCount }}
+          <span class="visually-hidden">Items Notification</span>
+        </span>
+        <!--({{ cartCount }})-->
+      </nuxt-link>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      authenticated: false,
+      userId: "",
+      cartCount: 0,
+      notifications: 0,
+    };
+  },
+  beforeMount() {
+    this.authenticated = localStorage.getItem("jwt") ? true : false;
+  },
+  mounted() {
+    if (this.authenticated) {
+      this.userId = localStorage.getItem("userId");
+      this.getCartCount();
+    }
+  },
+  methods: {
+    async getCartCount() {
+      let token = localStorage.getItem("jwt");
+      try {
+        const qs = require("qs");
+        const query = qs.stringify(
+          {
+            filters: {
+              users_permissions_user: {
+                id: {
+                  $eq: this.userId,
+                },
+              },
+              /* status: {
+                $eq: "Created",
+              },*/
+            },
+            pagination: {
+              page: 1,
+              pageSize: 5,
+            },
+            populate: ["image"],
+          },
+          {
+            encodeValuesOnly: true,
+          }
+        );
+        const items = await this.$axios.get(`/cart-items?${query}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        this.cartCount = items.data.meta.pagination.total;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -2,8 +2,7 @@
 // $primary: indigo;
 $primary: #cf9b38;
 $secondary: #f5ebe1;
-// Option A: Include all of Bootstrap
-
+$dark: rgb(162, 162, 162); // Option A: Include all of Bootstrap
 // Include any default variable overrides here (though functions won't be available)
 @import "~/node_modules/bootstrap/scss/bootstrap";
 
@@ -16,6 +15,9 @@ body {
     font-family: "Rochester", cursive;
     // font-family: "Vibur", cursive;
   }
+  .container {
+    position: relative;
+  }
 }
 .btn {
   height: 30px;
@@ -26,3 +28,5 @@ body {
 
 @import "lines";
 @import "dot";
+@import "pagination";
+@import "table";

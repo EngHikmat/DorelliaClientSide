@@ -16,7 +16,7 @@
         </div>
 
         <div class="description">{{ item.attributes.Description }}</div>
-        <button class="btn btn-secondary">
+        <button class="btn btn-secondary" @click="addToCart(item)">
           <i class="bi bi-bag-plus-fill me-1"></i> <span>Add to Cart</span>
         </button>
       </div>
@@ -27,6 +27,54 @@
 <script>
 export default {
   props: ["menu_items"],
+  data() {
+    return {
+      data: {
+        name: "",
+        description: "",
+        price: null,
+        image: "",
+      },
+      token: "",
+    };
+  },
+  mounted() {
+    this.token = localStorage.getItem("jwt");
+  },
+  methods: {
+    async addToCart(item) {
+      if (this.token) {
+        this.data.name = item.attributes.Title;
+        this.data.description = item.attributes.Description;
+        this.data.price = item.attributes.Price;
+        this.data.image = item.attributes.Image.data.id;
+        try {
+          const response = await this.$axios.post(
+            "/cart-items",
+            { data: this.data },
+            {
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+              },
+            }
+          );
+          this.$emit("forceRerender");
+          this.$notify({
+            type: "success",
+            title: "Add to cart",
+            text: "This item has <b> Successfully </b> added.",
+            duration: 5000,
+            speed: 1000,
+            data: {},
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        this.$router.push("/auth/login");
+      }
+    },
+  },
   computed: {
     url() {
       return this.$axios.defaults.baseURL

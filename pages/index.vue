@@ -3,10 +3,16 @@
     <div class="row">
       <div class="col-12">
         <PageTitle page_title="Starters" />
-        <MenuCombos :menu_combos="menu" />
+        <MenuCombos
+          :menu_combos="menu"
+          @forceRerender="$emit('forceRerender')"
+        />
       </div>
       <div class="col-12">
-        <MenuItems :menu_items="menuItems" />
+        <MenuItems
+          :menu_items="menuItems"
+          @forceRerender="$emit('forceRerender')"
+        />
       </div>
     </div>
   </div>
