@@ -50,6 +50,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "@nuxtjs/axios",
+    "bootstrap-vue/nuxt",
+    "vue-sweetalert2/nuxt",
   ],
   axios: {
     baseURL:

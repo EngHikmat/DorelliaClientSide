@@ -36,6 +36,7 @@ export default {
 .auth {
   position: absolute;
   right: 0;
+  z-index: 5;
   @media (max-width: 761px) {
     position: relative;
     text-align: center;
