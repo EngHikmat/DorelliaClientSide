@@ -22,7 +22,7 @@
               </div>
             </Skeleton>
           </div>
-          <Skeleton width="420px" height="20px" count="2">
+          <Skeleton width="420px" height="20px" :count="2">
             <div class="description" v-if="!skeltonLoading">
               {{ item.attributes.Description }}
             </div>

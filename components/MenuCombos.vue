@@ -15,7 +15,7 @@
           />
         </div>
       </Skeleton>
-      <Skeleton count="2">
+      <Skeleton :count="2">
         <div class="content" v-if="!skeltonLoading">
           <div class="description">
             {{ item.attributes.Description }}
