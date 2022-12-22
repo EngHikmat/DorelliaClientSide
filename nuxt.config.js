@@ -58,6 +58,9 @@ export default {
       process.env.STRAPI_URL ||
       "https://dorelliabackendapi-production-285d.up.railway.app/api",
   },
+  router: {
+    middleware: "skelton",
+  },
   /*axios: {
     baseURL: 'https://api-dev.shipcash.net/api'
   },

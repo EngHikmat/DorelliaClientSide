@@ -1,32 +1,49 @@
 <template>
   <div class="menu-combos">
     <div v-for="(item, index) in menu_combos.data" :key="index" class="box">
-      <div class="preview">
-        <div
-          class="title"
-          :style="'background-color:#' + item.attributes.Color"
-        >
-          <h1>{{ item.attributes.Title }}</h1>
+      <Skeleton height="200px">
+        <div class="preview" v-if="!skeltonLoading">
+          <div
+            class="title"
+            :style="'background-color:#' + item.attributes.Color"
+          >
+            <h1>{{ item.attributes.Title }}</h1>
+          </div>
+          <img
+            :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
+            alt=""
+          />
         </div>
-        <img
-          :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
-          alt=""
-        />
-      </div>
-      <div class="content">
-        <div class="description">{{ item.attributes.Description }}</div>
-        <div class="price">${{ item.attributes.Price }}</div>
-      </div>
-      <button class="btn btn-secondary" @click="addToCart(item)">
-        <i class="bi bi-bag-plus-fill me-1"></i> <span>Add to Cart</span>
-      </button>
+      </Skeleton>
+      <Skeleton count="2">
+        <div class="content" v-if="!skeltonLoading">
+          <div class="description">
+            {{ item.attributes.Description }}
+          </div>
+          <div class="price">${{ item.attributes.Price }}</div>
+        </div>
+      </Skeleton>
+      <Skeleton width="100px" height="30px">
+        <button
+          class="btn btn-secondary"
+          @click="addToCart(item)"
+          v-if="!skeltonLoading"
+        >
+          <i class="bi bi-bag-plus-fill me-1"></i> <span>Add to Cart</span>
+        </button>
+      </Skeleton>
     </div>
   </div>
 </template>
 
 <script>
+import { Skeleton } from "vue-loading-skeleton";
+import { mapState } from "vuex";
 export default {
   props: ["menu_combos"],
+  components: {
+    Skeleton,
+  },
   data() {
     return {
       data: {
@@ -42,6 +59,9 @@ export default {
     this.token = localStorage.getItem("jwt");
   },
   computed: {
+    ...mapState("ui", {
+      skeltonLoading: (state) => state.skeltonLoading,
+    }),
     url() {
       return this.$axios.defaults.baseURL
         ? this.$axios.defaults.baseURL.split("/api")[0]
