@@ -34,6 +34,9 @@ export default {
   },
   methods: {
     async getMenu() {
+      this.$store.commit("ui/changeSkletonLoading", {
+        skeltonLoading: true,
+      });
       try {
         const qs = require("qs");
         const query = qs.stringify(
@@ -50,9 +53,6 @@ export default {
         );
         const items = await this.$axios.get(`/menu-compos?populate=*&${query}`);
         this.menu = items.data;
-        this.$store.commit("ui/changeSkletonLoading", {
-          skeltonLoading: false,
-        });
       } catch (e) {
         console.log(e);
       }
