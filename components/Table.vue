@@ -1,6 +1,22 @@
 <template>
   <div>
-    <b-table stacked="sm" :items="items" :fields="fields">
+    <b-table
+      stacked="sm"
+      :items="items"
+      :fields="fields"
+      :busy="isBusy"
+      show-empty
+    >
+      <template #table-busy>
+        <div class="text-center text-primary my-2">
+          <div class="spinner-border text-primary" role="status"></div>
+        </div>
+      </template>
+      <template #empty>
+        <div class="text-center p-5 text-dark" style="font-size: 12px">
+          There is no Records yet ...
+        </div>
+      </template>
       <template #cell(actions)="row">
         <div
           class="icon-container"
@@ -52,7 +68,7 @@
 
 <script>
 export default {
-  props: ["items", "fields"],
+  props: ["items", "fields", "isBusy"],
   computed: {
     url() {
       return this.$axios.defaults.baseURL

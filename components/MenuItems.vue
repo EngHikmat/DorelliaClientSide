@@ -1,32 +1,55 @@
 <template>
   <div class="menu-items">
-    <div v-for="(item, index) in menu_items.data" :key="index" class="box">
-      <img
-        :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
-        alt=""
-      />
-
-      <div class="content">
-        <div class="header">
-          <div class="title">
-            {{ item.attributes.Title }}
+    <div v-for="(item, index) in menu_items.data" :key="index">
+      <div class="box">
+        <Skeleton width="180px" height="115px">
+          <img
+            v-if="!skeltonLoading"
+            :src="`${url}${item.attributes.Image.data.attributes.formats.medium.url}`"
+            alt=""
+          />
+        </Skeleton>
+        <div class="content">
+          <div class="header">
+            <Skeleton width="120px" height="20px">
+              <div class="title" v-if="!skeltonLoading">
+                {{ item.attributes.Title }}
+              </div>
+            </Skeleton>
+            <Skeleton width="70px" height="20px">
+              <div class="price" v-if="!skeltonLoading">
+                ${{ item.attributes.Price }}
+              </div>
+            </Skeleton>
           </div>
-
-          <div class="price">${{ item.attributes.Price }}</div>
+          <Skeleton width="420px" height="20px" count="2">
+            <div class="description" v-if="!skeltonLoading">
+              {{ item.attributes.Description }}
+            </div>
+          </Skeleton>
+          <Skeleton width="100px" height="30px">
+            <button
+              class="btn btn-secondary"
+              @click="addToCart(item)"
+              v-if="!skeltonLoading"
+            >
+              <i class="bi bi-bag-plus-fill me-1"></i> <span>Add to Cart</span>
+            </button>
+          </Skeleton>
         </div>
-
-        <div class="description">{{ item.attributes.Description }}</div>
-        <button class="btn btn-secondary" @click="addToCart(item)">
-          <i class="bi bi-bag-plus-fill me-1"></i> <span>Add to Cart</span>
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Skeleton } from "vue-loading-skeleton";
+import { mapState } from "vuex";
 export default {
   props: ["menu_items"],
+  components: {
+    Skeleton,
+  },
   data() {
     return {
       data: {
@@ -81,6 +104,9 @@ export default {
         ? this.$axios.defaults.baseURL.split("/api")[0]
         : "https://dorelliabackendapi-production-285d.up.railway.app";
     },
+    ...mapState("ui", {
+      skeltonLoading: (state) => state.skeltonLoading,
+    }),
   },
 };
 </script>

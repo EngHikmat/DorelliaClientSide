@@ -50,7 +50,9 @@ export default {
         );
         const items = await this.$axios.get(`/menu-compos?populate=*&${query}`);
         this.menu = items.data;
-        // console.log(this.menu);
+        this.$store.commit("ui/changeSkletonLoading", {
+          skeltonLoading: false,
+        });
       } catch (e) {
         console.log(e);
       }
@@ -72,7 +74,9 @@ export default {
         );
         const items = await this.$axios.get(`/menu-items?populate=*&${query}`);
         this.menuItems = items.data;
-        // console.log(this.menuItems);
+        this.$store.commit("ui/changeSkletonLoading", {
+          skeltonLoading: false,
+        });
       } catch (e) {
         console.log(e);
       }

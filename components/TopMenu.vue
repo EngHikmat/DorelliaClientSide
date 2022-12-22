@@ -60,9 +60,9 @@ export default {
                   $eq: this.userId,
                 },
               },
-              /* status: {
+              status: {
                 $eq: "Created",
-              },*/
+              },
             },
             pagination: {
               page: 1,

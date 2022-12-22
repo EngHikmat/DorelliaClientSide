@@ -6,6 +6,7 @@
         <Table
           :items.sync="items"
           :fields.sync="fields"
+          :isBusy.sync="isBusy"
           @removeItem="removeItem"
         />
       </div>
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       userId: "",
+      isBusy: true,
       page: null,
       pageCount: null,
       pages: [],
@@ -131,6 +133,7 @@ export default {
       });
     },
     async getCartOrders(p, to) {
+      this.isBusy = true;
       to === "prev"
         ? (p = this.page - 1)
         : to === "next"
@@ -192,6 +195,7 @@ export default {
       } catch (e) {
         console.log(e);
       }
+      this.isBusy = false;
     },
   },
 };
